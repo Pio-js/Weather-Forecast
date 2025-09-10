@@ -19,7 +19,7 @@ export const SearchBar: React.FC<Props> = ({ onSearch }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form onSubmit={handleSubmit} className="flex gap-2 z-10">
             <input
                 type="text"
                 placeholder="Gib eine Stadt in Deutschland ein"
