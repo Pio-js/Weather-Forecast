@@ -6,7 +6,7 @@ export async function fetchWeather(lat: number, lon: number) {
     return response.data;
 }
 
-// api.ts
+// api
 export async function geocodeCity(city: string) {
     const url =
         `https://geocoding-api.open-meteo.com/v1/search` +

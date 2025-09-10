@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SearchBar } from "./components/SearchBar";
 import { WeatherCard } from "./components/WeatherCard";
 import { geocodeCity, fetchWeather } from "./api";
+import BackgroundIllustration from "./components/BackgroundIllustration";
 
 interface WeatherDay {
     day: string;
@@ -32,7 +33,7 @@ export const App: React.FC = () => {
             setCity(`${name}${admin1 ? `, ${admin1}` : ""}`);
         } catch (err) {
             if (err instanceof Error) {
-                alert(err.message); // zeigt deine genaue Fehlermeldung
+                alert(err.message); // zeigt die genaue Fehlermeldung
             } else {
                 alert("Unbekannter Fehler bei der Stadtsuche");
             }
@@ -40,7 +41,9 @@ export const App: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-sky-300 to-blue-100 flex flex-col items-center justify-start p-6">
+        <div className="min-h-screen flex flex-col items-center justify-start p-6">
+            <BackgroundIllustration />
+            
             <h1 className="text-4xl font-extrabold text-blue-900 mb-6 drop-shadow">
                 Surf Wetter Deutschland 🌊
             </h1>
@@ -48,42 +51,43 @@ export const App: React.FC = () => {
             {/* Eingabe */}
             <SearchBar onSearch={handleSearch} />
 
-            {/* Menü für Küstenstädte */}
-            <div className="mt-4">
-                <label className="block text-blue-900 font-semibold mb-2">
-                    Schnellauswahl Küstenstädte:
-                </label>
-                <select
-                    onChange={(e) => e.target.value && handleSearch(e.target.value)}
-                    className="border border-blue-400 rounded-xl px-4 py-2 shadow bg-white text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="">Bitte wählen</option>
+            {/* Küstenstädte-Auswahl */}
+            <div className="mt-6 w-full max-w-3xl z-10">
+                <h3 className="text-xl font-semibold text-blue-900 mb-4 text-center">
+                    Beliebte Küstenstädte
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {[
-                        "Hamburg",
-                        "Kiel",
-                        "Rostock",
-                        "Lübeck",
-                        "Flensburg",
-                        "Wilhelmshaven",
-                        "Bremerhaven",
-                        "Cuxhaven"
+                        { name: "Hamburg", icon: "⚓️" },
+                        { name: "Kiel", icon: "⛵️" },
+                        { name: "Rostock", icon: "🌊" },
+                        { name: "Lübeck", icon: "🏖️" },
+                        { name: "Flensburg", icon: "🚤" },
+                        { name: "Wilhelmshaven", icon: "⚓️" },
+                        { name: "Bremerhaven", icon: "🌬️" },
+                        { name: "Cuxhaven", icon: "🌞" }
                     ].map((city) => (
-                        <option key={city} value={city}>
-                            {city}
-                        </option>
+                        <button
+                            key={city.name}
+                            onClick={() => handleSearch(city.name)}
+                            className="bg-white border border-blue-300 rounded-2xl shadow-md px-4 py-3 flex flex-col items-center justify-center hover:bg-blue-50 hover:scale-105 transition-transform duration-200"
+                        >
+                            <span className="text-2xl mb-1">{city.icon}</span>
+                            <span className="font-medium text-blue-800">{city.name}</span>
+                        </button>
                     ))}
-                </select>
+                </div>
             </div>
 
             {/* Vorhersage */}
             {city && (
-                <h2 className="mt-6 mb-4 text-2xl font-bold text-blue-700">
+                <h2 className="mt-8 mb-4 text-2xl font-bold text-blue-700 z-10">
                     Vorhersage für{" "}
                     <span className="underline decoration-blue-300">{city}</span>
                 </h2>
             )}
 
-            <div className="flex flex-col items-center gap-4 w-full">
+            <div className="flex flex-col items-center gap-4 w-full z-10">
                 {weather.map((day) => (
                     <WeatherCard key={day.day} {...day} />
                 ))}
