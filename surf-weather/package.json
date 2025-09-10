@@ -8,9 +8,12 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pio-js/Weather-Forecast.git"
+    "url": "https://github.com/Pio-js/Weather-Forecast.git"
   },
   "keywords": ["weather", "surf", "open-meteo", "vite", "react", "tailwind"],
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
